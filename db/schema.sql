@@ -1,0 +1,76 @@
+drop table if exists ADMINS;
+create table ADMINS(
+	ID integer  primary key  autoincrement,
+	USERNAME text UNIQUE ,
+	PASSWORD text not null,
+	LAST_NAME TEXT NOT NULL,
+	FIRST_NAME TEXT NOT NULL,
+	EMAIL TEXT NOT NULL
+	
+);
+
+drop table if exists SELLERS;
+create table SELLERS(
+	ID integer primary key autoincrement,
+	USERNAME text UNIQUE,
+	PASSWORD text not null,
+	LAST_NAME TEXT NOT NULL,
+	FIRST_NAME TEXT NOT NULL,
+	EMAIL TEXT NOT NULL
+	
+);
+drop table if exists CLIENTS;
+create table CLIENTS(
+	ID integer primary key autoincrement,
+	USERNAME text UNIQUE,
+	PASSWORD text not null,
+	LAST_NAME TEXT NOT NULL,
+	FIRST_NAME TEXT NOT NULL,
+	EMAIL TEXT NOT NULL,
+	ADDRESS TEXT NOT NULL,
+	CITY TEXT NOT NULL,
+	POSTCODE INT NOT NULL,
+	AFM INT NOT NULL
+
+);
+
+drop table if exists PROGRAMS;
+create table PROGRAMS(
+	ID INTEGER PRIMARY KEY autoincrement,
+	PROG_NAME TEXT  UNIQUE,
+	MINUTES INT NOT NULL,
+	SMS INT NOT NULL,
+	MB INT NOT NULL,
+	EURO INT NOT NULL
+);
+
+drop table if exists NUMBERS;
+create table NUMBERS(
+	ID_CLIENT INTEGER not null,
+	NUMBER INTEGER,
+	FOREIGN KEY(ID_CLIENT) REFERENCES CLIENTS(ID)
+);
+
+drop table if exists CALLS;
+create table CALLS(
+	ID_CLIENT INTEGER,
+	MIN INTEGER NOT NULL,
+	SMS INTEGER NOT NULL,
+	MB INTEGER NOT NULL,
+	FOREIGN KEY(ID_CLIENT) REFERENCES CLIENTS(ID)
+);
+
+drop table if exists IDP;
+create table IDP(
+	ID_CLIENT INTEGER,
+	PROG_NAME TEXT,
+	FOREIGN KEY(ID_CLIENT) REFERENCES CLIENTS(ID),
+	FOREIGN KEY(PROG_NAME) REFERENCES PROGRAMS(PROG_NAME)
+);
+
+drop table if exists BILLS;
+create table BILLS(
+	ID_CLIENT INTEGER,
+	CHARGE INTEGER NOT NULL,
+	FOREIGN KEY(ID_CLIENT) REFERENCES CLIENTS(ID)
+);

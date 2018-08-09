@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>TeleFunken</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/out_bootstrap.css') }}">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <!--<link href="carousel.css" rel="stylesheet">-->
+  </head>
+<!-- NAVBAR
+================================================== -->
+  <body>
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand navbar-left" href="{{ url_for('seller_control') }}"><b></b></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li ><a href="{{ url_for('seller_control') }}">Home</a></li>
+				<li><a href="{{ url_for('seller_add_cli') }}">Καταχώρηση Πελάτη</a></li>
+				<li><a href="{{ url_for('seller_change_prog') }}">Αλλαγή Προγράμματος & Έκδοση Πελάτη</a></li>
+              </ul>
+			  <ul class="nav navbar-nav navbar-right">
+					{% if session.logged_in %}
+						{% if welc %}
+							<li><h4><strong><i>Welcome {{ welc }}!!  </i></strong></h4></li>
+						{% else %}
+							<li><h4><strong><i>Welcome Client!! </i></strong></h4></li>
+						{% endif %}
+					{% endif %}
+					<li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
+			 </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+	<!-- End Navbar
+    ================================================== -->
+
+<!-- ADD PROFILE==============================================-->
+	<div class="container marketing">
+		<div class="container">
+			<h1>Change Programm</h1>
+			<hr>
+				<div class="row">
+				<!-- left column -->
+					<div class="col-md-3">
+					
+					</div>
+      
+					<!-- edit form column -->
+					<div class="col-md-9 personal-info">
+						{% if MSG %}
+						<div class="alert alert-info alert-dismissable">
+							<a class="panel-close close" data-dismiss="alert">×</a> 
+							<i class="fa fa-coffee"></i>
+								MSG: <strong>{{ MSG }}</strong>
+						</div>
+						{% endif %}
+						<h3>Change Programm</h3>
+						<form class="form-horizontal" role="form" action="{{ url_for('seller_action') }}" method="post">
+							
+							<div class="form-group">
+								<label class="col-md-3 control-label">Username:</label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="janeuser" type="text" size="30" name="username">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Programm:</label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="prog_name" type="text" size="30" name="new_prog">
+								</div>
+							</div>
+							
+								<div class="form-group">
+									<label class="col-md-3 control-label"></label>
+									<div class="col-md-8">
+										<div>
+											<input type="radio" name="reg" value="new"> For New Client!
+											<input type="radio" name="reg" value="old" checked="checked"> Already registed!
+										</div>
+										<button class="btn btn-primary" name="action" value="change_prog">Change</button>
+										<span></span>
+										<button class="btn btn-default" name="action" value="back">Cancel</button>
+									</div>
+								</div>
+							
+							
+						</form>
+						<div class="table-responsive">
+						<form action="{{ url_for('seller_action') }}" method="post" value="ac_cli">
+						{% if msg %}<strong>Msg: </strong>{{ msg }}<br>{% endif %}
+						<h2>View version account of client!</h2>
+							<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Last name</th>
+									<th>First name</th>
+									<th>Email</th>
+									<th>Address</th>
+									<th>City</th>
+									<th>Postcode</th>
+									<th>AFM</th>
+									<th>Number</th>
+									<th>Programm</th>
+									<th>Minute</th>
+									<th>Sms</th>
+									<th>Mb</th>
+									<th>Euro</th>
+								</tr>
+							</thead>
+							<tbody>
+							{% if number %}
+								<tr>
+								{% for i in info %}
+									<td>{{ i.lname|safe }}</td>
+									<td>{{ i.fname|safe }}</td>
+									<td>{{ i.email|safe }}</td>
+									<td>{{ i.addr|safe }}</td>
+									<td>{{ i.city|safe }}</td>
+									<td>{{ i.post|safe }}</td>
+									<td>{{ i.afm|safe }}</td>
+								{% endfor %}
+								{% for n in number %}
+									<td>{{ n.number|safe }}</td>
+								{% endfor %}
+								{% for p in prog_name %}
+									<td>{{ p.prog_name|safe }}</td>
+								{% endfor %}
+								
+								{% if history %}
+								{% for h in history %}
+									<td>{{ h.minute|safe }}</td>
+									<td>{{ h.sms|safe }}</td>
+									<td>{{ h.mb|safe }}</td>
+								{% endfor %}
+								{% else %}
+									<td> </td>
+									<td> </td>
+									<td> </td>
+								{% endif %}
+								{% for c in charge %}
+									<td>{{ c.charge|safe }}</td>
+								{% endfor %}
+							{% endif %}
+								</tr>
+							</tbody>
+							</table>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Username:</label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="janeuser" type="text" size="30" name="username">
+								</div>
+							</div>
+							<button class="btn btn-primary" name="action" value="ac_cli">Account</button>
+						</form>
+						</div>
+					</div>
+				</div><!-- /.row -->
+			</hr>
+		</div>
+	</div>
+	
+	
+
+	 <hr class="featurette-divider">
+	<!-- FOOTER -->
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2016 Tony Paul & Fikos, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script>
+	$('.carousel').carousel({
+		interval: 3000
+	})
+</script>	
+  </body>
+</html>

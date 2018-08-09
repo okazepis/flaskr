@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+{% if session.logged_in %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>TeleFunken</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/out_bootstrap.css') }}">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <!--<link href="carousel.css" rel="stylesheet">-->
+  </head>
+<!-- NAVBAR
+================================================== -->
+  <body>
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand navbar-left" href="{{ url_for('admin_control') }}"><b></b></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('admin_control') }}">Home</a></li> 
+				<li name="action" value="see" method="post"><a href="{{ url_for('admin_see_programms') }}">Programms</a></li> 
+				<li class="active"><a href="#">Add User</a></li>
+              </ul>
+			  <ul class="nav navbar-nav navbar-right">
+					
+						{% if welc %}
+							<li><h4><strong><i>Welcome {{ welc }}!!  </i></strong></h4></li>
+						{% else %}
+							<li><h4><strong><i>Welcome Admin!! </i></strong></h4></li>
+						{% endif %}
+					<li><a href="{{ url_for('user_logout') }}">Log Out</a></li>
+			 </ul>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+	<!-- End Navbar
+    ================================================== -->
+
+<!-- ADD PROFILE==============================================-->
+	<div class="container marketing">
+		<div class="container">
+			<h1><i>Add User</i></h1>
+			<hr>
+				<div class="row">
+				<!-- left column -->
+					<div class="col-md-3">
+					
+					</div>
+      
+					<!-- edit form column -->
+					<div class="col-md-9 personal-info">
+						{% if error_for_add_user %}
+						<div class="alert alert-info alert-dismissable">
+							<a class="panel-close close" data-dismiss="alert">×</a> 
+							<i class="fa fa-coffee"></i>
+								 <strong>Msg: </strong>. {{ error_for_add_user }}
+						</div>
+						{% endif %}
+						<h3>Personal info</h3>
+						<form class="form-horizontal" action="{{ url_for('admin_action') }}" method="post">
+							<div class="form-group">
+								<label class="col-lg-3 control-label">First name:</label>
+								<div class="col-lg-8">
+									<input class="form-control" placeholder="For all" type="text" size=30 name="fname">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Last name:</label>
+								<div class="col-lg-8">
+									<input class="form-control" placeholder="For all" type="text" size="30" name="lname">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Email:</label>
+								<div class="col-lg-8">
+									<input class="form-control" placeholder="Only Clients" type="text" size="30" name="email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Number:</label>
+								<div class="col-lg-8">
+									<input class="form-control" placeholder="Only Clients" type="number" size="10" name="number">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-lg-3 control-label">AFM:</label>
+								<div class="col-lg-8">
+									<input class="form-control" placeholder="Only Clients" type="number" size="9" name="afm">
+								</div>
+							</div>
+							
+							
+							<div class="form-group">
+								<label class="col-md-3 control-label">Username:</label>
+								<div class="col-md-8">
+									<input class="form-control" placeholder="For all"  type="text" size="30" name="username">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-3 control-label">Password:</label>
+								<div class="col-md-8">
+									<input class="form-control" type="password" size="30" name="password">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-3 control-label">Confirm password:</label>
+								<div class="col-md-8">
+									<input class="form-control" type="password" size="30" name="con_password">
+								</div>
+							</div>
+							<!-- Form Name -->
+								<h3>Address Details</h3>
+
+								<!-- Text input-->
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="textinput">Address</label>
+									<div class="col-sm-10">
+										<input type="text" placeholder="Only Clients" class="form-control" size="30" name="address">
+									</div>
+								</div>
+
+								<!-- Text input-->
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="textinput">City</label>
+									<div class="col-sm-10">
+										<input type="text" placeholder="Only Clients" class="form-control" size="30" name="city">
+									</div>
+									<label class="col-sm-2 control-label" for="textinput">Postcode</label>
+										<div class="col-sm-4">
+											<input type="number" placeholder="Only Clients" class="form-control" size="6" name="postcode">
+										</div>
+								</div>
+								<input type="radio" name=attr value="admin" checked="checked"> Admin
+								<input type="radio" name=attr value="seller"> Seller
+								<input type="radio" name=attr value="client"> Client
+								<div class="form-group">
+									<label class="col-md-3 control-label"></label>
+									<div class="col-md-8">
+										<button class="btn btn-primary" name="action" value="add_user">Save Changes</button>
+										<span></span>
+										<button class="btn btn-default" value="back" type="reset">Cancel</button>
+									</div>
+								</div>
+							
+							
+						</form>
+					</div>
+				</div><!-- /.row -->
+			</hr>
+		</div>
+	</div>
+	
+
+	 <hr class="featurette-divider">
+	<!-- FOOTER -->
+
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2016 Tony Paul & Fikos, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script>
+	$('.carousel').carousel({
+		interval: 3000
+	})
+</script>	
+  </body>
+  {% endif %}
+</html>
+
